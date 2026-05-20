@@ -63,9 +63,6 @@ sudo -u ubuntu bash -c "
 #    RPC calls go TO the inference VM's private IP:${iii_ws_port}
 ###############################################################################
 cat > /opt/devops-iii/quickstart/config.yaml <<YAML
-engine:
-  port: ${iii_ws_port}
-  host: 0.0.0.0
 workers:
   - name: iii-observability
     config:
