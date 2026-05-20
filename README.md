@@ -3,38 +3,7 @@
 This project provisions a distributed AI inference architecture on AWS using Terraform. It deploys two EC2 instances across public and private subnets, utilizing the `iii` RPC engine for cross-language worker communication.
 
 ## 🏗️ Architecture
-
-```text
-       INTERNET
-          │ (Port 3111)
-          ▼
-┌─────────────────────────────────────────────────────────┐
-│  AWS VPC  (e.g. 10.0.0.0/16)                           │
-│                                                          │
-│  ┌──────────────────────┐                               │
-│  │   PUBLIC SUBNET       │                               │
-│  │   10.0.1.0/24         │                               │
-│  │                       │                               │
-│  │  ┌──────────────────┐ │                               │
-│  │  │  API Gateway VM  │ │  ← Only VM with public IP    │
-│  │  │  (caller-worker) │ │    Exposes POST /v1/chat/    │
-│  │  │  TypeScript      │ │    completions to internet   │
-│  │  │  Port 3111       │ │                               │
-│  │  └────────┬─────────┘ │                               │
-│  └───────────┼───────────┘                               │
-│              │  RPC over WebSocket (private subnet)      │
-│  ┌───────────┼───────────────────────────────────────┐  │
-│  │   PRIVATE SUBNET  10.0.2.0/24                     │  │
-│  │           │                                        │  │
-│  │  ┌────────▼─────────┐                             │  │
-│  │  │  Inference VM    │                             │  │
-│  │  │ (inference-worker│                             │  │
-│  │  │  Python + Gemma  │                             │  │
-│  │  │  Port 49134      │                             │  │
-│  │  └──────────────────┘                             │  │
-│  └───────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
-```
+<img width="1536" height="1024" alt="ChatGPT Image May 20, 2026, 01_58_53 PM" src="https://github.com/user-attachments/assets/2e54d8af-2b39-42fb-a5a1-ec9feecb2942" />
 
 **Two workers, two VMs:**
 - **inference-worker (Python):** Hosted in the private subnet. Loads `gemma-3-270m` GGUF model and runs inference via the RPC function `inference::run_inference`.
@@ -140,13 +109,23 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 *(Add your screenshots here before submission)*
 
 1. **VPC & Subnets:**
-   ![VPC Setup](link_to_screenshot)
+   ![VPC Setup]<img width="2158" height="1185" alt="Screenshot 2026-05-20 134524" src="https://github.com/user-attachments/assets/09a26cc7-4d71-4564-bc6d-dcab2b6b67f8" /><img width="2159" height="1195" alt="Screenshot 2026-05-20 134546" src="https://github.com/user-attachments/assets/57e42105-158d-4004-8d1f-97ee2d7ae8f7" />
+
+
 
 2. **Running EC2 Instances:**
-   ![EC2 Instances](link_to_screenshot)
+   ![EC2 Instances]<img width="2159" height="1192" alt="image" src="https://github.com/user-attachments/assets/9139b4ad-b97c-4fb7-8810-fed10d7d138f" />
 
-3. **Security Groups (Inbound Rules):**
-   ![Security Groups](link_to_screenshot)
+
+3. **Security Groups of Caller VM and Inference VM(Inbound Rules):**
+   ![Security Groups]<img width="2159" height="1190" alt="image" src="https://github.com/user-attachments/assets/4fc75d25-b4cd-4f13-812e-f7a22b0f395d" /><img width="2159" height="1187" alt="image" src="https://github.com/user-attachments/assets/760d8792-80fe-476d-9f95-5c18fa1cafa8" />
+
+
+
+5. **terraform apply output:**
+   ![Termianl Output]<img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
+
+
 
 4. **Successful API Response (cURL):**
    ![cURL Test](link_to_screenshot)
