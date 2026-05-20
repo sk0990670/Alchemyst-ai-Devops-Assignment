@@ -3,7 +3,8 @@
 This project provisions a distributed AI inference architecture on AWS using Terraform. It deploys two EC2 instances across public and private subnets, utilizing the `iii` RPC engine for cross-language worker communication.
 
 ## 🏗️ Architecture
-<img width="1536" height="1024" alt="ChatGPT Image May 20, 2026, 01_58_53 PM" src="https://github.com/user-attachments/assets/2e54d8af-2b39-42fb-a5a1-ec9feecb2942" />
+<img width="1536" height="1024" alt="ChatGPT Image May 20, 2026, 05_32_11 PM" src="https://github.com/user-attachments/assets/b3f68285-3fe4-47b7-896a-3e12ce1809fd" />
+
 
 **Two workers, two VMs:**
 - **inference-worker (Python):** Hosted in the private subnet. Loads `gemma-3-270m` GGUF model and runs inference via the RPC function `inference::run_inference`.
