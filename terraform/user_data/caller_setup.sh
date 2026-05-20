@@ -33,6 +33,7 @@ npm --version
 ###############################################################################
 # 3. Install the iii CLI (RPC engine)
 ###############################################################################
+export HOME=/root
 curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
 ln -sf /root/.iii/bin/iii /usr/local/bin/iii || true
 

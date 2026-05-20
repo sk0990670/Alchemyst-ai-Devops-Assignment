@@ -26,6 +26,7 @@ apt-get install -y \
 ###############################################################################
 # 2. Install the iii CLI (RPC engine)
 ###############################################################################
+export HOME=/root
 curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
 # Make iii available system-wide
 ln -sf /root/.iii/bin/iii /usr/local/bin/iii || true
