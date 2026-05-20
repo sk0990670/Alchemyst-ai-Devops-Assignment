@@ -152,7 +152,7 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 
 
 4. **terraform apply output:**
-   ![Terminal Output]<img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
+<img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
 
 
 
