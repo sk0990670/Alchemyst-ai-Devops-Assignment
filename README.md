@@ -94,6 +94,24 @@ curl -X POST http://<CALLER_VM_PUBLIC_IP>:3111/v1/chat/completions \
 
 ---
 
+## 🐛 Debugging & Fixes (May 2026)
+
+During the deployment of this assignment, the developers of the `iii` engine released a major breaking update (`v0.12.0`). This caused the out-of-the-box quickstart scripts to fail in three critical ways, which have all been successfully debugged and fixed in this repository:
+
+1. **Broken `iii` CLI Installation Path:**
+   - **Issue:** The installation path for the engine silently changed from `/root/.iii/bin` to `/root/.local/bin`. This broke our `systemd` services because the binaries were no longer where they were expected to be, resulting in continuous `status=203/EXEC` restart loops.
+   - **Fix:** Updated the Terraform `user_data` boot scripts (`caller_setup.sh` and `inference_setup.sh`) to automatically move the newly installed binaries to `/usr/local/bin`, ensuring `systemd` can securely execute them as the `ubuntu` user.
+
+2. **Network Binding Issue (`ECONNREFUSED`):**
+   - **Issue:** The Caller VM could not connect to the Inference VM over the private subnet because the new engine defaulted to binding exclusively to `127.0.0.1` (localhost).
+   - **Fix:** Injected explicit `engine: { host: 0.0.0.0 }` configurations directly into the `config.yaml` of both VMs during bootstrap, exposing the RPC WebSockets to the VPC network safely.
+
+3. **Incompatible Worker SDKs:**
+   - **Issue:** The worker templates were hardcoded to use `iii-sdk` v0.11.0, which silently crashes when communicating with the v0.12.0 engine.
+   - **Fix:** Directly patched `quickstart/workers/caller-worker/package.json` to use `"iii-sdk": "^0.12.0"` and `quickstart/workers/inference-worker/requirements.txt` to use `iii-sdk>=0.12.0`.
+
+---
+
 ## 🔒 Production Hardening & Scaling
 
 **What I'd harden for production:**
