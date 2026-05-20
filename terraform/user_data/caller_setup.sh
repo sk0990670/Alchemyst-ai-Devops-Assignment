@@ -98,8 +98,10 @@ workers:
           - DELETE
           - OPTIONS
 
-  - name: caller-worker
-    worker_path: $WORKER_DIR
+  - name: iii-remote
+    config:
+      remotes:
+        - url: ws://${inference_private_ip}:${iii_ws_port}
 YAML
 
 ###############################################################################
@@ -142,7 +144,7 @@ Type=simple
 User=ubuntu
 WorkingDirectory=$WORKER_DIR
 # Caller connects to the inference VM via private IP — this is the key wiring
-Environment="III_URL=ws://${inference_private_ip}:${iii_ws_port}"
+Environment="III_URL=ws://localhost:${iii_ws_port}"
 ExecStart=/usr/bin/npm run dev
 Restart=on-failure
 RestartSec=10
