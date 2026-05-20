@@ -1,0 +1,16 @@
+# Terraform State & Secrets
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfstate.d/
+crash.log
+crash.*.log
+
+# tfvars contain YOUR_IP and key names — do not commit
+terraform.tfvars
+*.auto.tfvars
+
+# SSH private key
+*.pem
+*.ppk
