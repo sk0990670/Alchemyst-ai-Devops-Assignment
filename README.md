@@ -131,7 +131,18 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 
 ---
 
-### 1. VPC & Subnets
+### 1. Terraform Apply Output
+**Command used:**
+```bash
+cd terraform
+terraform apply -auto-approve
+```
+
+<img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
+
+---
+
+### 2. VPC & Subnets
 **How to view in AWS Console:**
 > AWS Console → Search **"VPC"** → Click **"Your VPCs"** → Find `devops-iii-vpc` → Click **"Subnets"** in the left menu to see both public and private subnets.
 
@@ -140,7 +151,7 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 
 ---
 
-### 2. Running EC2 Instances
+### 3. Running EC2 Instances
 **How to view in AWS Console:**
 > AWS Console → Search **"EC2"** → Click **"Instances"** in the left menu → You will see both `devops-iii-caller-vm` (Public) and `devops-iii-inference-vm` (Private) with status **Running**.
 
@@ -148,24 +159,13 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 
 ---
 
-### 3. Security Groups (Inbound Rules)
+### 4. Security Groups (Inbound Rules)
 **How to view in AWS Console:**
 > AWS Console → **EC2** → **Security Groups** (left menu) → Find `devops-iii-api-sg` and `devops-iii-inference-sg` → Click each → Select **"Inbound rules"** tab.
 
 <img width="2159" height="1194" alt="image" src="https://github.com/user-attachments/assets/eeee7bcd-8057-49f1-8fe5-b4b17b9cb94a" />
 
 <img width="2159" height="1189" alt="image" src="https://github.com/user-attachments/assets/88fe1780-18b7-4f34-861a-0b1d3528af37" />
-
----
-
-### 4. Terraform Apply Output
-**Command used:**
-```bash
-cd terraform
-terraform apply -auto-approve
-```
-
-<img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
 
 ---
 
