@@ -75,7 +75,8 @@ resource "aws_instance" "inference" {
   user_data = templatefile(
     "${path.module}/user_data/inference_setup.sh",
     {
-      iii_ws_port = var.iii_ws_port
+      iii_ws_port        = var.iii_ws_port
+      caller_private_ip  = aws_instance.caller.private_ip
     }
   )
 

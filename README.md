@@ -110,6 +110,10 @@ During the deployment of this assignment, the developers of the `iii` engine rel
    - **Issue:** The worker templates were hardcoded to use `iii-sdk` v0.11.0, which silently crashes when communicating with the v0.12.0 engine.
    - **Fix:** Directly patched `quickstart/workers/caller-worker/package.json` to use `"iii-sdk": "^0.12.0"` and `quickstart/workers/inference-worker/requirements.txt` to use `iii-sdk>=0.12.0`.
 
+4. **Single-Engine Architecture (Cross-VM RPC):**
+   - **Issue:** The initial assumption was to run one `iii` engine per VM. This is incorrect. Both workers (TypeScript caller-worker and Python inference-worker) must connect to the **same** `iii` engine for the `inference::run_inference` RPC call to be resolved. Running separate engines meant the caller engine could not find the `inference::run_inference` function, resulting in a `function_not_found` error.
+   - **Fix:** Configured the `inference-worker` to connect via `III_URL` to the **caller VM's** engine IP on port `49134`. Updated the caller VM's Security Group to allow inbound port `49134` from the private subnet (`10.0.2.0/24`). Stopped the unnecessary local `iii-engine` on the inference VM.
+
 ---
 
 ## 🔒 Production Hardening & Scaling

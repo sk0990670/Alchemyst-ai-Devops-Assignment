@@ -98,10 +98,6 @@ workers:
           - DELETE
           - OPTIONS
 
-  - name: iii-remote
-    config:
-      remotes:
-        - url: ws://${inference_private_ip}:${iii_ws_port}
 YAML
 
 ###############################################################################

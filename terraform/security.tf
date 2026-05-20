@@ -27,13 +27,23 @@ resource "aws_security_group" "api_gateway" {
     cidr_blocks = [var.your_ip_cidr]
   }
 
+  # RPC/WebSocket from inference VM — so inference-worker can register
+  # its functions with the caller's iii engine
+  ingress {
+    description = "iii RPC WebSocket from inference VM (private subnet)"
+    from_port   = var.iii_ws_port
+    to_port     = var.iii_ws_port
+    protocol    = "tcp"
+    cidr_blocks = [var.private_subnet_cidr]
+  }
+
   # HTTP API — port 3111 open to the world (this is the public endpoint)
   ingress {
-    description = "iii HTTP API (POST /v1/chat/completions)"
-    from_port   = var.iii_http_port
-    to_port     = var.iii_http_port
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description      = "iii HTTP API (POST /v1/chat/completions)"
+    from_port        = var.iii_http_port
+    to_port          = var.iii_http_port
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
 

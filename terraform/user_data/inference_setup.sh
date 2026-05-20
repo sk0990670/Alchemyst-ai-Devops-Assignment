@@ -105,7 +105,7 @@ Wants=network-online.target
 Type=simple
 User=ubuntu
 WorkingDirectory=$WORKER_DIR
-Environment="III_URL=ws://localhost:${iii_ws_port}"
+Environment="III_URL=ws://${caller_private_ip}:${iii_ws_port}"
 ExecStart=$WORKER_DIR/venv/bin/python inference_worker.py
 Restart=on-failure
 RestartSec=10
