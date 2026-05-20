@@ -4,7 +4,6 @@
 # Runs once on first boot via EC2 user_data (as root)
 #
 # Templatefile variables (injected by Terraform):
-#   ${inference_private_ip} — private IP of the inference VM
 #   ${iii_ws_port}          — WebSocket port for RPC (default 49134)
 #   ${iii_http_port}        — HTTP port the API listens on (default 3111)
 ###############################################################################

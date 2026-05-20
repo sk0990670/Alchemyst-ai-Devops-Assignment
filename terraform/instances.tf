@@ -35,17 +35,12 @@ resource "aws_instance" "caller" {
   user_data = templatefile(
     "${path.module}/user_data/caller_setup.sh",
     {
-      inference_private_ip = aws_instance.inference.private_ip
-      iii_ws_port          = var.iii_ws_port
-      iii_http_port        = var.iii_http_port
+      iii_ws_port   = var.iii_ws_port
+      iii_http_port = var.iii_http_port
     }
   )
 
-  # Ensure inference VM exists first so we have its private IP
-  depends_on = [
-    aws_instance.inference,
-    aws_nat_gateway.nat,
-  ]
+  depends_on = [aws_nat_gateway.nat]
 
   tags = merge(var.common_tags, {
     Name = "${var.project_name}-caller-vm"
@@ -80,7 +75,7 @@ resource "aws_instance" "inference" {
     }
   )
 
-  depends_on = [aws_nat_gateway.nat]
+  depends_on = [aws_nat_gateway.nat, aws_instance.caller]
 
   tags = merge(var.common_tags, {
     Name = "${var.project_name}-inference-vm"
