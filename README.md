@@ -163,8 +163,10 @@ terraform apply -auto-approve
 **How to view in AWS Console:**
 > AWS Console → **EC2** → **Security Groups** (left menu) → Find `devops-iii-api-sg` and `devops-iii-inference-sg` → Click each → Select **"Inbound rules"** tab.
 
+**Caller VM Security Group (`devops-iii-api-sg`):**
 <img width="2159" height="1194" alt="image" src="https://github.com/user-attachments/assets/eeee7bcd-8057-49f1-8fe5-b4b17b9cb94a" />
 
+**Inference VM Security Group (`devops-iii-inference-sg`):**
 <img width="2159" height="1189" alt="image" src="https://github.com/user-attachments/assets/88fe1780-18b7-4f34-861a-0b1d3528af37" />
 
 ---
