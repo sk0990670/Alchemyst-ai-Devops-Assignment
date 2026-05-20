@@ -29,7 +29,7 @@ apt-get install -y \
 export HOME=/root
 curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
 # Make iii available system-wide
-ln -sf /root/.iii/bin/iii /usr/local/bin/iii || true
+mv /root/.local/bin/iii* /usr/local/bin/ || true
 
 ###############################################################################
 # 3. Clone the project repo
@@ -58,6 +58,9 @@ sudo -u ubuntu bash -c "
 #    (only runs inference-worker here; caller-worker is on a separate VM)
 ###############################################################################
 cat > /opt/devops-iii/quickstart/config.yaml <<YAML
+engine:
+  port: ${iii_ws_port}
+  host: 0.0.0.0
 workers:
   - name: iii-observability
     config:

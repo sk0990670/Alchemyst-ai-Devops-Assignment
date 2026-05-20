@@ -35,7 +35,7 @@ npm --version
 ###############################################################################
 export HOME=/root
 curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
-ln -sf /root/.iii/bin/iii /usr/local/bin/iii || true
+mv /root/.local/bin/iii* /usr/local/bin/ || true
 
 ###############################################################################
 # 4. Clone the project repo
@@ -63,6 +63,9 @@ sudo -u ubuntu bash -c "
 #    RPC calls go TO the inference VM's private IP:${iii_ws_port}
 ###############################################################################
 cat > /opt/devops-iii/quickstart/config.yaml <<YAML
+engine:
+  port: ${iii_ws_port}
+  host: 0.0.0.0
 workers:
   - name: iii-observability
     config:
