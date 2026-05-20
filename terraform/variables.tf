@@ -58,13 +58,13 @@ variable "ami_id" {
 variable "caller_instance_type" {
   description = "EC2 instance type for the caller-worker (API gateway)"
   type        = string
-  default     = "t3.micro"   # free-tier eligible
+  default     = "t3.micro"      # 1GB RAM — fine for TypeScript caller worker   # free-tier eligible
 }
 
 variable "inference_instance_type" {
   description = "EC2 instance type for the inference-worker (needs ≥ 4 GB RAM for Gemma)"
   type        = string
-  default     = "t3.medium"  # 4 GB RAM — minimum for loading the 270M model
+  default     = "c7i-flex.large"  # 4GB RAM — safe headroom for Gemma GGUF + torch
 }
 
 variable "key_pair_name" {
