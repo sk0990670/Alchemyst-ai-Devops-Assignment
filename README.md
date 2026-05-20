@@ -131,23 +131,34 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 *(Add your screenshots here before submission)*
 
 1. **VPC & Subnets:**
-   ![VPC Setup]<img width="2158" height="1185" alt="Screenshot 2026-05-20 134524" src="https://github.com/user-attachments/assets/09a26cc7-4d71-4564-bc6d-dcab2b6b67f8" /><img width="2159" height="1195" alt="Screenshot 2026-05-20 134546" src="https://github.com/user-attachments/assets/57e42105-158d-4004-8d1f-97ee2d7ae8f7" />
+<img width="2159" height="1194" alt="image" src="https://github.com/user-attachments/assets/78a038eb-d743-46eb-83fc-171bad574385" />
+<img width="2159" height="1187" alt="image" src="https://github.com/user-attachments/assets/d41f6583-a7ca-4ee5-9414-12bdbb40a5b5" />
+
 
 
 
 2. **Running EC2 Instances:**
-   ![EC2 Instances]<img width="2159" height="1192" alt="image" src="https://github.com/user-attachments/assets/9139b4ad-b97c-4fb7-8810-fed10d7d138f" />
+<img width="2159" height="1189" alt="image" src="https://github.com/user-attachments/assets/9a65dcc4-ad65-4699-bcba-4b5dbeca96ff" />
+
 
 
 3. **Security Groups of Caller VM and Inference VM(Inbound Rules):**
-   ![Security Groups]<img width="2159" height="1190" alt="image" src="https://github.com/user-attachments/assets/4fc75d25-b4cd-4f13-812e-f7a22b0f395d" /><img width="2159" height="1187" alt="image" src="https://github.com/user-attachments/assets/760d8792-80fe-476d-9f95-5c18fa1cafa8" />
+
+<img width="2159" height="1189" alt="image" src="https://github.com/user-attachments/assets/88fe1780-18b7-4f34-861a-0b1d3528af37" />
 
 
 
-5. **terraform apply output:**
+
+4. **terraform apply output:**
    ![Termianl Output]<img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
 
 
 
-4. **Successful API Response (cURL):**
-   ![cURL Test](link_to_screenshot)
+5. **Successful API Response (cURL):**
+<img width="1350" height="763" alt="image" src="https://github.com/user-attachments/assets/0bbba912-1991-43bc-b31c-225fe2cd46aa" />
+
+
+
+6. **SSH into Inference VM (journalctl -u inference-worker):**
+<img width="1910" height="732" alt="image" src="https://github.com/user-attachments/assets/2f5d1791-7ee0-4ad1-b2ba-3d04111bebf8" />
+
