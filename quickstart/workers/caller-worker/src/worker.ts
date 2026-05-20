@@ -11,7 +11,6 @@ iii.registerFunction(
     const result = await iii.trigger({
       function_id: 'inference::run_inference',
       payload,
-      timeout_ms: 120000,
     });
 
     return {
@@ -29,7 +28,6 @@ iii.registerFunction(
     const result = await iii.trigger({
       function_id: 'inference::get_response',
       payload: payload.body,
-      timeout_ms: 120000,
     });
     logger.info("Running http inference...")
     return {
