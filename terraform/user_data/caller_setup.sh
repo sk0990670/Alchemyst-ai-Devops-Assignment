@@ -86,7 +86,7 @@ workers:
     config:
       port: ${iii_http_port}
       host: 0.0.0.0
-      default_timeout: 30000
+      default_timeout: 120000
       concurrency_request_limit: 1024
       cors:
         allowed_origins:
