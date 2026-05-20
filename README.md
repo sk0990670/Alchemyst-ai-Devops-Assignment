@@ -129,38 +129,70 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 
 ## 📸 Deployment Evidence
 
+---
 
-1. **VPC & Subnets:**
+### 1. VPC & Subnets
+**How to view in AWS Console:**
+> AWS Console → Search **"VPC"** → Click **"Your VPCs"** → Find `devops-iii-vpc` → Click **"Subnets"** in the left menu to see both public and private subnets.
+
 <img width="2159" height="1194" alt="image" src="https://github.com/user-attachments/assets/78a038eb-d743-46eb-83fc-171bad574385" />
 <img width="2159" height="1187" alt="image" src="https://github.com/user-attachments/assets/d41f6583-a7ca-4ee5-9414-12bdbb40a5b5" />
 
+---
 
+### 2. Running EC2 Instances
+**How to view in AWS Console:**
+> AWS Console → Search **"EC2"** → Click **"Instances"** in the left menu → You will see both `devops-iii-caller-vm` (Public) and `devops-iii-inference-vm` (Private) with status **Running**.
 
-
-2. **Running EC2 Instances:**
 <img width="2159" height="1189" alt="image" src="https://github.com/user-attachments/assets/9a65dcc4-ad65-4699-bcba-4b5dbeca96ff" />
 
+---
 
+### 3. Security Groups (Inbound Rules)
+**How to view in AWS Console:**
+> AWS Console → **EC2** → **Security Groups** (left menu) → Find `devops-iii-api-sg` and `devops-iii-inference-sg` → Click each → Select **"Inbound rules"** tab.
 
-3. **Security Groups of Caller VM and Inference VM(Inbound Rules):**
 <img width="2159" height="1194" alt="image" src="https://github.com/user-attachments/assets/eeee7bcd-8057-49f1-8fe5-b4b17b9cb94a" />
-
 
 <img width="2159" height="1189" alt="image" src="https://github.com/user-attachments/assets/88fe1780-18b7-4f34-861a-0b1d3528af37" />
 
+---
 
+### 4. Terraform Apply Output
+**Command used:**
+```bash
+cd terraform
+terraform apply -auto-approve
+```
 
-
-4. **terraform apply output:**
 <img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
 
+---
 
+### 5. Successful API Response (cURL)
+**Command used (Windows PowerShell):**
+```powershell
+# Step 1 — Create payload file
+Set-Content -Path payload.json -Value '{"messages": [{"role": "user", "content": "What is 2+2?"}]}'
 
-5. **Successful API Response (cURL):**
+# Step 2 — Send the request
+curl.exe -X POST http://<CALLER_VM_PUBLIC_IP>:3111/v1/chat/completions `
+  -H "Content-Type: application/json" `
+  -d "@payload.json"
+```
+
 <img width="1350" height="763" alt="image" src="https://github.com/user-attachments/assets/0bbba912-1991-43bc-b31c-225fe2cd46aa" />
 
+---
 
+### 6. SSH into Inference VM — Worker Logs
+**Command used (Windows PowerShell — from the `devops` folder where `Batch12.pem` is located):**
+```powershell
+ssh -o ProxyCommand="ssh -W %h:%p -i Batch12.pem -o StrictHostKeyChecking=no ubuntu@<CALLER_VM_PUBLIC_IP>" `
+    -i Batch12.pem -o StrictHostKeyChecking=no ubuntu@<INFERENCE_VM_PRIVATE_IP> `
+    "journalctl -u inference-worker --no-pager"
+```
+> This uses the **Caller VM as a bastion/jump host** to SSH into the private Inference VM — proving it has no public IP and is only reachable through the internal network.
 
-6. **SSH into Inference VM (journalctl -u inference-worker):**
 <img width="1910" height="732" alt="image" src="https://github.com/user-attachments/assets/2f5d1791-7ee0-4ad1-b2ba-3d04111bebf8" />
 
