@@ -33,7 +33,7 @@ npm --version
 ###############################################################################
 # 3. Install the iii CLI (RPC engine)
 ###############################################################################
-curl -fsSL https://iii.dev/install.sh | sh
+curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
 ln -sf /root/.iii/bin/iii /usr/local/bin/iii || true
 
 ###############################################################################
@@ -53,6 +53,7 @@ WORKER_DIR="$REPO_DIR/quickstart/workers/caller-worker"
 sudo -u ubuntu bash -c "
   cd $WORKER_DIR
   npm install
+  npm install iii-sdk@latest
 "
 
 ###############################################################################
@@ -60,7 +61,7 @@ sudo -u ubuntu bash -c "
 #    Caller worker only — HTTP endpoint on port ${iii_http_port}
 #    RPC calls go TO the inference VM's private IP:${iii_ws_port}
 ###############################################################################
-cat > /opt/devops-iii/quickstart/config-caller.yaml <<YAML
+cat > /opt/devops-iii/quickstart/config.yaml <<YAML
 workers:
   - name: iii-observability
     config:
@@ -113,7 +114,7 @@ Wants=network-online.target
 Type=simple
 User=ubuntu
 WorkingDirectory=/opt/devops-iii/quickstart
-ExecStart=/usr/local/bin/iii start --config config-caller.yaml
+ExecStart=/usr/local/bin/iii --config config.yaml
 Restart=on-failure
 RestartSec=5
 StandardOutput=journal

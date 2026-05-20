@@ -26,7 +26,7 @@ apt-get install -y \
 ###############################################################################
 # 2. Install the iii CLI (RPC engine)
 ###############################################################################
-curl -fsSL https://iii.dev/install.sh | sh
+curl -fsSL https://install.iii.dev/iii/main/install.sh | sh
 # Make iii available system-wide
 ln -sf /root/.iii/bin/iii /usr/local/bin/iii || true
 
@@ -49,13 +49,14 @@ sudo -u ubuntu bash -c "
   source $WORKER_DIR/venv/bin/activate
   pip install --upgrade pip
   pip install -r $WORKER_DIR/requirements.txt
+  pip install --upgrade iii-sdk
 "
 
 ###############################################################################
 # 5. Write the iii engine config for this VM
 #    (only runs inference-worker here; caller-worker is on a separate VM)
 ###############################################################################
-cat > /opt/devops-iii/quickstart/config-inference.yaml <<YAML
+cat > /opt/devops-iii/quickstart/config.yaml <<YAML
 workers:
   - name: iii-observability
     config:
@@ -128,7 +129,7 @@ Wants=network-online.target
 Type=simple
 User=ubuntu
 WorkingDirectory=/opt/devops-iii/quickstart
-ExecStart=/usr/local/bin/iii start --config config-inference.yaml
+ExecStart=/usr/local/bin/iii --config config.yaml
 Restart=on-failure
 RestartSec=5
 StandardOutput=journal

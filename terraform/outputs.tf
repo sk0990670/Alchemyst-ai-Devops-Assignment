@@ -38,12 +38,12 @@ output "curl_example" {
 
 output "ssh_caller_vm" {
   description = "SSH command to connect to the caller VM"
-  value       = "ssh -i devops-key.pem ubuntu@${aws_instance.caller.public_ip}"
+  value       = "ssh -i Batch12.pem ubuntu@${aws_instance.caller.public_ip}"
 }
 
 output "ssh_inference_vm" {
   description = "SSH command to connect to the inference VM (via caller VM as jump host)"
-  value       = "ssh -i devops-key.pem -J ubuntu@${aws_instance.caller.public_ip} ubuntu@${aws_instance.inference.private_ip}"
+  value       = "ssh -i Batch12.pem -J ubuntu@${aws_instance.caller.public_ip} ubuntu@${aws_instance.inference.private_ip}"
 }
 
 output "vpc_id" {
