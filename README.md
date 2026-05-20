@@ -21,8 +21,8 @@ We provision an isolated network (VPC).
 - **Private Subnet:** Has NO internet access, only a NAT Gateway. This is where the Inference VM lives. It can reach out to the internet to download the Python model, but nobody on the internet can reach in. This ensures strict network hygiene.
 
 ### 2. Security Groups (Firewalls)
-- **API Gateway SG (Public):** Opens TCP port 3111 to the world (`0.0.0.0/0`) for the API, and TCP 22 (SSH) strictly to your specific IP address.
-- **Inference SG (Private):** Completely blocked from the internet. It only opens port 49134 (for the RPC engine) and port 22 (for SSH) to the specific private IP of the Caller VM.
+- **API Gateway SG (Public):** Opens TCP port 3111 to the world (`0.0.0.0/0`) for the API, TCP 22 (SSH) strictly to your specific IP, and TCP port 49134 from the private subnet (`10.0.2.0/24`) so the inference-worker can connect to the shared `iii` engine.
+- **Inference SG (Private):** Completely blocked from the internet. Only allows outbound connections (used to reach the caller engine and download the model via NAT Gateway). SSH is accessible only via the Caller VM as a bastion host.
 
 ### 3. The EC2 Instances
 - **Caller VM (`t3.micro`):** Extremely lightweight (1GB RAM) because it only runs a Node.js web server.
@@ -86,8 +86,8 @@ curl -X POST http://<CALLER_VM_PUBLIC_IP>:3111/v1/chat/completions \
 ```json
 {
   "result": {
-    "success": "You've connected two workers...",
-    "response": "4"
+    "success": "You've connected two workers and they're interoperating seamlessly, now let's add a few more workers to expand this project's functionality.",
+    "text": "2 + 2 = 4"
   }
 }
 ```
@@ -102,9 +102,9 @@ During the deployment of this assignment, the developers of the `iii` engine rel
    - **Issue:** The installation path for the engine silently changed from `/root/.iii/bin` to `/root/.local/bin`. This broke our `systemd` services because the binaries were no longer where they were expected to be, resulting in continuous `status=203/EXEC` restart loops.
    - **Fix:** Updated the Terraform `user_data` boot scripts (`caller_setup.sh` and `inference_setup.sh`) to automatically move the newly installed binaries to `/usr/local/bin`, ensuring `systemd` can securely execute them as the `ubuntu` user.
 
-2. **Network Binding Issue (`ECONNREFUSED`):**
-   - **Issue:** The Caller VM could not connect to the Inference VM over the private subnet because the new engine defaulted to binding exclusively to `127.0.0.1` (localhost).
-   - **Fix:** Injected explicit `engine: { host: 0.0.0.0 }` configurations directly into the `config.yaml` of both VMs during bootstrap, exposing the RPC WebSockets to the VPC network safely.
+2. **Invalid YAML Config Field (`unknown field engine`):**
+   - **Issue:** We attempted to add an `engine: { host: 0.0.0.0 }` block to `config.yaml` to force network binding. However, the `iii` engine v0.12.0 **only accepts** `workers:` or `modules:` as valid top-level keys. This caused a crash loop: `Failed to parse config file: unknown field 'engine'`.
+   - **Fix:** Removed the invalid `engine:` block entirely from `config.yaml`. The correct solution was the single-engine architecture described in Fix #4.
 
 3. **Incompatible Worker SDKs:**
    - **Issue:** The worker templates were hardcoded to use `iii-sdk` v0.11.0, which silently crashes when communicating with the v0.12.0 engine.
@@ -128,7 +128,6 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 
 ## 📸 Deployment Evidence
 
-*(Add your screenshots here before submission)*
 
 1. **VPC & Subnets:**
 <img width="2159" height="1194" alt="image" src="https://github.com/user-attachments/assets/78a038eb-d743-46eb-83fc-171bad574385" />
@@ -149,8 +148,8 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 
 
 
-4. **terraform apply output:**
-   ![Termianl Output]<img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
+4. **terraform apply output:**
+   ![Terminal Output]<img width="1414" height="723" alt="Screenshot 2026-05-20 134309" src="https://github.com/user-attachments/assets/22f51445-46c2-47d9-abd8-9e4dcc4d60ca" />
 
 
 
