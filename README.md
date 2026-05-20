@@ -143,6 +143,8 @@ A much larger model cannot run on CPU. I would swap the `c7i-flex.large` instanc
 
 
 3. **Security Groups of Caller VM and Inference VM(Inbound Rules):**
+<img width="2159" height="1194" alt="image" src="https://github.com/user-attachments/assets/eeee7bcd-8057-49f1-8fe5-b4b17b9cb94a" />
+
 
 <img width="2159" height="1189" alt="image" src="https://github.com/user-attachments/assets/88fe1780-18b7-4f34-861a-0b1d3528af37" />
 
